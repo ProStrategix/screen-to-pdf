@@ -17,26 +17,26 @@ if (!fs.existsSync(outputDir)) {
 
 // Sending the data required for creating the hmtl file
 app.post('/generate-html', (req, res) => {
-    const { A, B, C } = req.body;
+    const { log, output, people } = req.body;
 
-  if (!A || !B || !C) {
-    return res.status(400).json({ error: 'Request body must contain A, B, and C stringified JSON data' });
+  if (!log || !output || !people) {
+    return res.status(400).json({ error: 'Request body must contain log, output, and people stringified JSON data' });
   }
 
   try {
     const rootDir = __dirname;
 
-    // Parse and write A.json
-    const aData = JSON.parse(A);
-    fs.writeFileSync(path.resolve(rootDir, 'A.json'), JSON.stringify(aData, null, 2), 'utf-8');
+    // Parse and write log.json
+    const aData = JSON.parse(log);
+    fs.writeFileSync(path.resolve(rootDir, 'log.json'), JSON.stringify(aData, null, 2), 'utf-8');
 
-    // Parse and write B.json
-    const bData = JSON.parse(B);
-    fs.writeFileSync(path.resolve(rootDir, 'B.json'), JSON.stringify(bData, null, 2), 'utf-8');
+    // Parse and write output.json
+    const bData = JSON.parse(output);
+    fs.writeFileSync(path.resolve(rootDir, 'output.json'), JSON.stringify(bData, null, 2), 'utf-8');
 
-    // Parse and write C.json
-    const cData = JSON.parse(C);
-    fs.writeFileSync(path.resolve(rootDir, 'C.json'), JSON.stringify(cData, null, 2), 'utf-8');
+    // Parse and write people.json
+    const cData = JSON.parse(people);
+    fs.writeFileSync(path.resolve(rootDir, 'people.json'), JSON.stringify(cData, null, 2), 'utf-8');
 
     res.json({ message: 'JSON files updated successfully' });
   } catch (error) {
@@ -45,7 +45,7 @@ app.post('/generate-html', (req, res) => {
 });
 // Serve the HTML file
 app.get('/', (req, res) => {
-  const filePath = path.resolve(__dirname, 'index.html');
+  const filePath = path.resolve(__dirname, 'iframe.html');
   res.sendFile(filePath);
 });
 
@@ -63,9 +63,6 @@ app.post('/generate-pdf', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`PDF generation API listening at http://localhost:${port}`);
-});
 
 async function generatePdf(fileUrl) {
   // Use local HTML file iframe.html in the same directory
@@ -95,3 +92,7 @@ async function generatePdf(fileUrl) {
   console.log(`PDF generated successfully: ${outputPath}`);
   return outputPath;
 }
+
+app.listen(port, () => {
+  console.log(`PDF generation API listening at http://localhost:${port}`);
+});
