@@ -1,2 +1,3 @@
 # screen-to-pdf
-Captures screenshot and coverts
+Captures screenshot and coverts them into images.
+
