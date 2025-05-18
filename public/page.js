@@ -166,7 +166,13 @@ function createTable(data, color, bcolor, thColor) {
     const row = document.createElement('tr');
     ['Title', 'Elevation', 'Date', 'Order', 'Notes'].forEach((key, i) => {
       const td = document.createElement('td');
-      td.textContent = rowData[key] || '';
+      if (key === 'Date' && rowData[key]) {
+        // Convert the date string to a Date object and format it
+        const date = new Date(rowData[key]);
+        td.textContent = date.toLocaleDateString() ;
+      } else {
+        td.textContent = rowData[key] || '';
+      }
       td.style.border = '1px solid #000';
       td.style.padding = '8px';
       if(["Elevation", "Date", "Order"].includes(key)) {td.style.textAlign = "center"} else {
